@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper Recommendation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+     <!-- Font Awesome -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Dark Mode Styles -->
+    <style>
+        /* Dark Mode Styles */
+        body.dark {
+            background-color: #1f2937;
+            color: #f9fafb;
+        }
+    
+        .dark .border-gray-300 {
+            border-color: #374151;
+        }
+    
+        .dark .text-gray-700 {
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-800">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Theme Switcher -->
+        <div class="flex justify-between mt-8">
+            <h1 class="text-3xl font-semibold mb-4">Research Paper Recommendation</h1>
+            <!-- Theme Switcher -->
+            <button onclick="toggleTheme()" class="fas fa-adjust"> Change Theme</button> 
+        </div>
+
+        <!-- Research Paper Search -->
+        <form action="/" method="POST" class="flex justify-between mb-4">
+            <input type="text" name="query" placeholder="Search for research papers" class="border-gray-300 border rounded-md px-4 py-2 w-4/5">
+            <button type="submit" class="bg-blue-500 text-gray-700 px-4 py-2 rounded-md w-1/6">Search</button>
+        </form>
+
+        <h1 class="text-3xl font-semibold mb-4">Recommended Papers</h1>
+        <p>Showing results for query: "{{ query }}"</p>
+        <div class="grid grid-cols-1 gap-4">
+            {% for index, row in recommendations.iterrows() %}
+            <div class="border border-gray-300 rounded-md p-4">
+                <h2 class="text-xl font-semibold">{{ row['Title'] }}</h2>
+                <p class="text-gray-700">{{ row['Authors'] }} - {{ row['Year'] }}</p>
+                <p class="text-gray-700">Publisher: {{ row['Publisher'] }}</p>
+                <p class="text-gray-700">Link: 
+                    {% if row['Link'] %}
+                        <a href="{{ row['Link'] }}" target="_blank">{{ row['Link'] }}</a>
+                    {% else %}
+                        Not available
+                    {% endif %}
+                </p>
+                <p class="text-gray-700">Document Type: {{ row['Document Type'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <!-- Theme Switcher Script -->
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark');
+        }
+    </script>
+</body>
+
+</html>
